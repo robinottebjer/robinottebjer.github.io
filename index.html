@@ -5,14 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
 
-    <!-- place this in a head section -->
-    <link rel="apple-touch-icon" href="touch-icon-iphone.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="touch-icon-ipad.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="touch-icon-iphone-retina.png">
-    <link rel="apple-touch-icon" sizes="167x167" href="touch-icon-ipad-retina.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="assets/touch-icon-iphone.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="assets/touch-icon-ipad.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="assets/touch-icon-iphone-retina.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="assets/touch-icon-ipad-retina.png">
+    <link rel="apple-touch-icon" sizes="167x167" href="assets/touch-icon-ipad-pro.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/touch-icon-iphone-6-plus.png">
+    <link rel="icon" sizes="192x192" href="assets/icon-hd.png">
+    <link rel="icon" sizes="128x128" href="assets/icon.png">
 
-
-    <title>Segeltop IF</title>
+    <title>Segeltops IF</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <style>
 
@@ -26,7 +28,7 @@
       <div class="row">
         <div class="col text-center">
           <img class="img-fluid" style="width: 50%;" src="assets/logo.jpg">
-          <h1 style="font-size: 30px; margin-top: 30px; margin-bottom: 30px;" class="display-4">Stöd Segeltop IF, scanna streckkoden på ICA Kvantum Kungens Kurva</h1>
+          <h1 style="font-size: 30px; margin-top: 25px; margin-bottom: 30px;" class="display-4">Stöd Segeltops IF, scanna streckkoden på ICA Kvantum Kungens Kurva</h1>
         </div>
       </div>
     </div>
@@ -42,41 +44,6 @@
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-
-    <script>
-    var overscroll = function(el) {
-      el.addEventListener('touchstart', function() {
-        var top = el.scrollTop
-          , totalScroll = el.scrollHeight
-          , currentScroll = top + el.offsetHeight
-        //If we're at the top or the bottom of the containers
-        //scroll, push up or down one pixel.
-        //
-        //this prevents the scroll from "passing through" to
-        //the body.
-        if(top === 0) {
-          el.scrollTop = 1
-        } else if(currentScroll === totalScroll) {
-          el.scrollTop = top - 1
-        }
-      })
-      el.addEventListener('touchmove', function(evt) {
-        //if the content is actually scrollable, i.e. the content is long enough
-        //that scrolling can occur
-        if(el.offsetHeight < el.scrollHeight)
-          evt._isScroller = true
-      })
-    }
-    overscroll(document.querySelector('.scroll'));
-    document.body.addEventListener('touchmove', function(evt) {
-      //In this case, the default behavior is scrolling the body, which
-      //would result in an overflow.  Since we don't want that, we preventDefault.
-      if(!evt._isScroller) {
-        evt.preventDefault()
-      }
-    })
-    </script>
-
 
   </body>
 </html>
