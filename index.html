@@ -1,49 +1,235 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="apple-mobile-web-app-capable" content="yes">
 
-    <link rel="apple-touch-icon" sizes="57x57" href="assets/touch-icon-iphone.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="assets/touch-icon-ipad.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="assets/touch-icon-iphone-retina.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="assets/touch-icon-ipad-retina.png">
-    <link rel="apple-touch-icon" sizes="167x167" href="assets/touch-icon-ipad-pro.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="assets/touch-icon-iphone-6-plus.png">
-    <link rel="icon" sizes="192x192" href="assets/icon-hd.png">
-    <link rel="icon" sizes="128x128" href="assets/icon.png">
+<head>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'IBM Plex Sans Arabic', sans-serif;
+      padding: 20px;
+      background: rgb(255, 255, 255);
+      background: linear-gradient(90deg, rgba(255, 255, 255, 1) 0%, rgba(9, 9, 121, 0.24693627450980393) 30%, rgba(0, 212, 255, 0.5746673669467788) 100%);
+    }
 
-    <title>Segeltops IF</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <style>
+    hr {
+      border: 1px solid;
+    }
 
-      body { margin: 50px; }
+    .hidden {
+      display: none;
+    }
 
-    </style>
-  </head>
-  <body>
+    .win {
+      position: absolute;
+      font-size: 150px;
+    }
 
-    <div class="container">
-      <div class="row">
-        <div class="col text-center">
-          <img class="img-fluid" style="width: 50%;" src="assets/logo.jpg">
-          <h1 style="font-size: 30px; margin-top: 25px; margin-bottom: 30px;" class="display-4">Stöd Segeltops IF, scanna streckkoden på ICA Kvantum Kungens Kurva</h1>
-        </div>
-      </div>
-    </div>
+    .correct {
+      background: green;
+      color: white;
+    }
 
-    <div class="container-fluid>
-      <div class="row">
-        <div class="col text-center">
-          <img class="img-fluid" style="width: 80%;" src="assets/barcode.png">
-        </div>
-      </div>
-    </div>
+    .wrong {
+      background: orange;
+      color: white;
+    }
 
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    input[type=text] {
+      border: 1px solid #484848;
+      border-radius: 4px;
+      padding: 3px 10px;
+      font-size: 16px;
+      font-family: 'IBM Plex Sans Arabic', sans-serif;
+    }
 
-  </body>
+    button {
+      border-radius: 4px;
+      padding: 3px 10px;
+      font-size: 14px;
+      text-transform: uppercase;
+      font-family: 'IBM Plex Sans Arabic', sans-serif;
+      border: 2px solid transparent;
+      color: #eee;
+      background: #006e85;
+    }
+
+    button:hover {
+      color: #006e85;
+      background: #eee;
+      cursor: pointer;
+      border: 2px solid #006e85;
+    }
+
+    td {
+      padding-right: 20px;
+    }
+  </style>
+</head>
+
+<body id="body">
+  <h1>Olivers glosor 🥇 🤓 ❤️</h1>
+
+  <input onclick="change_type()" id="use_word_formation" type="checkbox">Med böjning<br><br>
+
+  Svenska:&nbsp;&nbsp;
+  <input id="input_swedish" type="text">
+  Engelska:&nbsp;&nbsp;
+  <input id="input_english" type="text">&nbsp;&nbsp;
+  <input id="input_english_2" class="hidden" type="text">&nbsp;&nbsp;
+  <input id="input_english_3" class="hidden" type="text">&nbsp;&nbsp;
+  <button id="add">Lägg till</button>&nbsp;&nbsp;
+  Antal glosor:&nbsp;&nbsp;<span id="count">0</span>&nbsp;&nbsp;&nbsp;
+  <br><br>
+  <button onclick="new_round()">Radera</button>&nbsp;&nbsp;
+
+
+
+  <button id="start">Starta</button>
+
+  <hr>
+
+  <div id="test"></div>
+
+  <script>
+    var glossary = [];
+
+    if (localStorage.getItem('glossary') != null) {
+      glossary = JSON.parse(localStorage.getItem('glossary'));
+      update_counter();
+      if (glossary[0].english[2] != '') {
+        document.getElementById('use_word_formation').checked = true;
+        document.getElementById('use_word_formation').onclick();
+      }
+    }
+
+    var count_span = document.getElementById('count');
+    var add_button = document.getElementById('add');
+    var start_button = document.getElementById('start');
+
+    add_button.addEventListener('click', event => {
+      var swedish = document.getElementById('input_swedish');
+      var english = document.getElementById('input_english');
+      var english_2 = document.getElementById('input_english_2');
+      var english_3 = document.getElementById('input_english_3');
+
+      glossary.push({
+        'swedish': swedish.value,
+        'english': [english.value, english_2.value, english_3.value]
+      });
+
+      count_span.innerHTML = glossary.length;
+
+      swedish.value = '';
+      english.value = '';
+      english_2.value = '';
+      english_3.value = '';
+
+    });
+
+    start_button.addEventListener('click', event => {
+
+      localStorage.setItem("glossary", JSON.stringify(glossary));
+      var test = document.getElementById('test');
+      var html = '';
+
+      var use_word_formation = document.getElementById('use_word_formation').checked;
+
+      var html = '<table>';
+
+      for (var i in glossary) {
+
+        html += `<tr><td>${glossary[i].swedish}:</td>`;
+        html += `	 <td><input spellcheck="false" class="answer" data="${glossary[i].english[0]}" onkeyup="check_glossary(this);" type="text"></td>`;
+        if (use_word_formation) {
+          html += `	 <td><input spellcheck="false" class="answer" data="${glossary[i].english[1]}" onkeyup="check_glossary(this);" type="text"></td>`;
+          html += `	 <td><input spellcheck="false" class="answer" data="${glossary[i].english[2]}" onkeyup="check_glossary(this);" type="text"></td>`;
+        }
+        html += '</tr>';
+      }
+      html += '</table>';
+
+      test.innerHTML = html;
+
+    });
+
+    function check_glossary(input) {
+      if (input.value.trim().toLowerCase() == input.getAttribute('data').trim().toLowerCase()) {
+        input.classList.add('correct');
+        input.classList.remove('wrong');
+      }
+      else {
+        input.classList.add('wrong');
+        input.classList.remove('correct');
+      }
+      check_for_win();
+    }
+
+
+    function change_type() {
+      document.getElementById('input_english_2').classList.toggle('hidden');
+      document.getElementById('input_english_3').classList.toggle('hidden');
+    }
+
+
+    function check_for_win() {
+
+      var answers = document.getElementsByClassName('answer');
+      for (var i = 0; i < answers.length; i++) {
+
+        if (!answers[i].classList.contains('correct'))
+          return false;
+
+      }
+      var body = document.getElementById('body');
+      var emojies = ['😍', '😃', '😋', '🥰', '😘', '🎉', '🥳', '🤓', '🥇', '👍', '🤪', '🙌', '🫖', '💂‍♀️', '🐟🍟', '👏'];
+
+      var i = 0;
+
+      window.interval = setInterval(function () {
+        i++;
+        var x = Math.round(Math.random() * window.innerWidth) - 100;
+        var y = Math.round(Math.random() * window.innerHeight) - 200;
+
+        var e = Math.round(Math.random() * (emojies.length - 1));
+
+        var h1 = document.createElement('h1');
+        h1.classList.add('win');
+        h1.style.left = x + 'px';
+        h1.style.top = y + 'px';
+        h1.innerHTML = emojies[e];
+        h1.setAttribute('onclick', `restart()`);
+        body.append(h1);
+        if (i > 1000) clearInterval(window.interval);
+      }, 20);
+      return true;
+    }
+
+    function restart() {
+      clearInterval(window.interval);
+
+      var emojies = document.getElementsByClassName('win');
+      for (var i = 0; i < emojies.length; i++) {
+        emojies[i].remove();
+      }
+
+    }
+
+    function new_round() {
+      if (confirm("Är du säker på att du vill radera glosorna?")) {
+
+        glossary = [];
+        update_counter();
+      }
+    }
+
+    function update_counter() {
+      document.getElementById('count').innerHTML = glossary.length;
+    }
+
+  </script>
+</body>
+
+
 </html>
