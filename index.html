@@ -5,12 +5,13 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400&display=swap" rel="stylesheet">
+  <title>Elliots glosor</title>
   <style>
     body {
       font-family: 'IBM Plex Sans Arabic', sans-serif;
       padding: 20px;
       background: rgb(255, 255, 255);
-      background: linear-gradient(90deg, rgba(255, 255, 255, 1) 0%, rgba(9, 9, 121, 0.24693627450980393) 30%, rgba(0, 212, 255, 0.5746673669467788) 100%);
+      background: linear-gradient(90deg, rgb(29, 86, 5) 0%, rgba(211, 218, 202, 0.247) 30%, rgba(69, 237, 23, 0.575) 100%);
     }
 
     hr {
@@ -52,14 +53,14 @@
       font-family: 'IBM Plex Sans Arabic', sans-serif;
       border: 2px solid transparent;
       color: #eee;
-      background: #006e85;
+      background: #042e15;
     }
 
     button:hover {
-      color: #006e85;
+      color: #042e15;
       background: #eee;
       cursor: pointer;
-      border: 2px solid #006e85;
+      border: 2px solid #042e15;
     }
 
     td {
@@ -69,7 +70,7 @@
 </head>
 
 <body id="body">
-  <h1>Olivers glosor 🥇 🤓 ❤️</h1>
+  <h1>Elliots glosor 🇬🇧 🥇 🇸🇪</h1>
 
   <input onclick="change_type()" id="use_word_formation" type="checkbox">Med böjning<br><br>
 
@@ -183,15 +184,14 @@
 
       }
       var body = document.getElementById('body');
-      var emojies = ['😍', '😃', '😋', '🥰', '😘', '🎉', '🥳', '🤓', '🥇', '👍', '🤪', '🙌', '🫖', '💂‍♀️', '🐟🍟', '👏'];
+      var emojies = ['😍', '😃', '😋', '🥰', '🐶', '😘', '🎉', '🥳', '🤓', '🥇', '🐾', '👍', '🤪', '🙌', '🫖', '💂‍♀️', '🐟🍟', '👏', '🇬🇧'];
 
       var i = 0;
 
       window.interval = setInterval(function () {
         i++;
-        var x = Math.round(Math.random() * window.innerWidth) - 100;
-        var y = Math.round(Math.random() * window.innerHeight) - 200;
-
+        var x = Math.round(Math.random() * window.innerWidth);
+        var y = Math.round(Math.random() * window.innerHeight);
         var e = Math.round(Math.random() * (emojies.length - 1));
 
         var h1 = document.createElement('h1');
@@ -199,10 +199,16 @@
         h1.style.left = x + 'px';
         h1.style.top = y + 'px';
         h1.innerHTML = emojies[e];
-        h1.setAttribute('onclick', `restart()`);
+        //h1.setAttribute('onclick', `restart()`);
+        
         body.append(h1);
-        if (i > 1000) clearInterval(window.interval);
-      }, 20);
+
+        h1.addEventListener('click', event => {
+          event.target.remove();
+        });
+
+        if (i > 10) clearInterval(window.interval);
+      }, 500);
       return true;
     }
 
@@ -227,8 +233,8 @@
     function update_counter() {
       document.getElementById('count').innerHTML = glossary.length;
     }
-
-  </script>
+    
+    </script>
 </body>
 
 
