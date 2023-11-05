@@ -9,7 +9,7 @@
   <style>
     body {
       font-family: 'IBM Plex Sans Arabic', sans-serif;
-      padding: 20px;
+      margin: 20px;
       background: rgb(255, 255, 255);
       background: linear-gradient(90deg, rgb(29, 86, 5) 0%, rgba(211, 218, 202, 0.247) 30%, rgba(69, 237, 23, 0.575) 100%);
     }
@@ -93,6 +93,97 @@
 
   <div id="test"></div>
 
+  <style>
+    #keyboard {
+      position: fixed;
+      bottom: 20px;
+      background: #484848;
+      text-align: center;
+      padding: 10px;
+      border-radius: 5px;
+      box-sizing: border-box;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 800px;
+    }
+    .key {
+      background: #000;
+      color: #fff;
+      display: inline-block;
+      padding: 8px 10px;
+      margin: 1px;
+      border-radius: 4px;
+      font-size: 30px;
+      width: 30px;
+      height: 40px;
+      user-select: none;
+    }
+    .key:hover {
+      background: #ccc;
+      color: #000;
+      cursor: pointer;
+    }
+    #spacebar {
+      width: 300px;
+    }
+  </style>
+  <div id="keyboard">
+    <div id="row1"></div>
+    <div id="row2"></div>
+    <div id="row3"></div>
+    <div id="row4"><div class="key" id="spacebar"></div>
+  </div>
+<script>
+    
+    let rows = [document.getElementById('row1'), document.getElementById('row2'), document.getElementById('row3')];
+    let keys = ['qwertyuiop', 'asdfghjkl', 'zxcvbnm'];
+
+    let i = 0;
+    keys.forEach(row => {
+      row.split('').forEach(letter => {
+        
+        let element = document.createElement('div');
+        element.classList.add('key');
+        element.id = letter;
+        element.innerText = letter.toUpperCase();
+        
+        element.addEventListener('mousedown', key_press);
+
+        rows[i].appendChild(element);
+      });
+      i++;
+    });
+    
+    let backspace = document.createElement('div');
+    backspace.classList.add('key');
+    backspace.id = 'backspace';
+    backspace.innerText = '<';
+    backspace.addEventListener('mousedown', key_press);
+    rows[0].appendChild(backspace);
+
+    let spacebar = document.getElementById('spacebar');
+    spacebar.addEventListener('mousedown', key_press);
+
+    function key_press(event) {
+      
+      if (focused_input == null)
+        return;
+
+      if (event.target.id == 'spacebar')
+        focused_input.value = focused_input.value + ' ';
+      else if (event.target.id == 'backspace' && focused_input.value.length > 0)
+        focused_input.value = focused_input.value.slice(0, -1);
+      else 
+        focused_input.value = focused_input.value + event.target.id;
+
+      check_glossary(focused_input);
+    }
+
+
+  </script>
+
+
+
   <script>
     var glossary = [];
 
@@ -142,18 +233,23 @@
       for (var i in glossary) {
 
         html += `<tr><td>${glossary[i].swedish}:</td>`;
-        html += `	 <td><input autocomplete="off" spellcheck="false" class="answer" data="${glossary[i].english[0]}" onkeyup="check_glossary(this);" type="text"></td>`;
+        html += `	 <td><input autocomplete="off" onfocus="focused(this);" readonly="readonly" spellcheck="false" class="answer" data="${glossary[i].english[0]}" onkeyup="check_glossary(this);" type="text"></td>`;
         if (use_word_formation) {
-          html += `	 <td><input autocomplete="off" spellcheck="false" class="answer" data="${glossary[i].english[1]}" onkeyup="check_glossary(this);" type="text"></td>`;
-          html += `	 <td><input autocomplete="off" spellcheck="false" class="answer" data="${glossary[i].english[2]}" onkeyup="check_glossary(this);" type="text"></td>`;
+          html += `	 <td><input autocomplete="off" readonly="readonly" spellcheck="false" class="answer" data="${glossary[i].english[1]}" onkeyup="check_glossary(this);" type="text"></td>`;
+          html += `	 <td><input autocomplete="off" readonly="readonly" spellcheck="false" class="answer" data="${glossary[i].english[2]}" onkeyup="check_glossary(this);" type="text"></td>`;
         }
         html += '</tr>';
       }
       html += '</table>';
 
       test.innerHTML = html;
-
     });
+
+    var focused_input = null;
+    function focused(element) {
+      window.focused_input = element;
+    }
+
 
     function check_glossary(input) {
       if (input.value.trim().toLowerCase() == input.getAttribute('data').trim().toLowerCase()) {
