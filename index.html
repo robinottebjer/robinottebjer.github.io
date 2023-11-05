@@ -142,10 +142,10 @@
       for (var i in glossary) {
 
         html += `<tr><td>${glossary[i].swedish}:</td>`;
-        html += `	 <td><input spellcheck="false" class="answer" data="${glossary[i].english[0]}" onkeyup="check_glossary(this);" type="text"></td>`;
+        html += `	 <td><input autocomplete="off" spellcheck="false" class="answer" data="${glossary[i].english[0]}" onkeyup="check_glossary(this);" type="text"></td>`;
         if (use_word_formation) {
-          html += `	 <td><input spellcheck="false" class="answer" data="${glossary[i].english[1]}" onkeyup="check_glossary(this);" type="text"></td>`;
-          html += `	 <td><input spellcheck="false" class="answer" data="${glossary[i].english[2]}" onkeyup="check_glossary(this);" type="text"></td>`;
+          html += `	 <td><input autocomplete="off" spellcheck="false" class="answer" data="${glossary[i].english[1]}" onkeyup="check_glossary(this);" type="text"></td>`;
+          html += `	 <td><input autocomplete="off" spellcheck="false" class="answer" data="${glossary[i].english[2]}" onkeyup="check_glossary(this);" type="text"></td>`;
         }
         html += '</tr>';
       }
